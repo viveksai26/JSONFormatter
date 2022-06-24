@@ -4,15 +4,23 @@
       <div class="row justify-content-center align-items-end">
         <mat-card class="col-md-12" style="margin-top: 5%">
           <div class="d-flex justify-content-center">
-            <h1>JSON Tester</h1>
+            <h1>COMPARE JSON</h1>
           </div>
           <div class="row">
             <form [formGroup]="jsonFormGroup">
-              <mat-form-field class="fullwidth" appearance="fill">
-                <mat-label>JSON Tester</mat-label>
+              <mat-form-field style="width:50%" appearance="fill">
+                <mat-label>Field 1</mat-label>
                 <textarea
                   matInput
                   formControlName="json"
+                  rows="15"
+                ></textarea>
+              </mat-form-field>
+              <mat-form-field style="width:50%" appearance="fill">
+                <mat-label>Field 2</mat-label>
+                <textarea
+                  matInput
+                  formControlName="json2"
                   rows="15"
                 ></textarea>
               </mat-form-field>
@@ -20,21 +28,40 @@
           </div>
         </mat-card>
         <mat-card class="col-md-12" style="margin-top: 1%" *ngIf="formattedJson">
+          <p style="font-size: 16px;">JSON 1</p>
           {{formattedJson | json}}
         </mat-card>
+        <mat-card class="col-md-12" style="margin-top: 1%" *ngIf="formattedJson">
+          <p style="font-size: 16px;">JSON 2</p>
+          {{formattedJson2 | json}}
+        </mat-card>
         <mat-card class="col-md-12" style="margin-top: 1%" *ngIf="myError">
+          <p style="color: red; font-size: large;">Error in Field 1</p>
           <p style="color: red; font-size: large;">{{myError}}</p>
         </mat-card>
-        <mat-card class="col-md-4" style="margin-top: 1%" *ngIf="formattedJsonForTable">
-          <table style="width: 100%" mat-table [dataSource]="formattedJsonForTable" class="mat-elevation-z8">
+        <mat-card class="col-md-12" style="margin-top: 1%" *ngIf="myError2">
+          <p style="color: red; font-size: large;">Error in Field 2</p>
+          <p style="color: red; font-size: large;">{{myError2}}</p>
+        </mat-card>
+        <mat-card class="col-md-12" style="margin-top: 1%; max-height:600px; overflow-y: auto;" *ngIf="formattedJsonForTable">
+          <table style="width: 100%" mat-table [dataSource]="combinedDataTable" class="mat-elevation-z8">
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Name </th>
-              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': element.highlightRowName}"> {{element.name}} </td>
             </ng-container>
           
             <ng-container matColumnDef="value">
               <th mat-header-cell *matHeaderCellDef> value </th>
-              <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+              <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': element.highlightRowValue}"> {{element.value}} </td>
+            </ng-container>
+            <ng-container matColumnDef="name2">
+              <th mat-header-cell *matHeaderCellDef> Name2 </th>
+              <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': element.highlightRowName}"> {{element.name2}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="value2">
+              <th mat-header-cell *matHeaderCellDef> value2 </th>
+              <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': element.highlightRowValue}"> {{element.value2}}</td>
             </ng-container>
           
           
